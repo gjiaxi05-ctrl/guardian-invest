@@ -33,8 +33,8 @@ missed the previous day's close and rebalanced one day late. The rule is now "th
 
 ## Starting point: a low-drawdown automated investing system for stock and bond ETFs
 
-The architecture follows BinanceClaw: rules propose → AI reviews → hard guardrails → execution → daily report.
-The one change of principle is that **the AI can only reduce positions, never add**. The reason: an LLM's judgement cannot be backtested (the model saw historical prices during training),
+The pipeline: rules propose → AI reviews → hard guardrails → execution → daily report.
+The key principle is that **the AI can only reduce positions, never add**. The reason: an LLM's judgement cannot be backtested (the model saw historical prices during training),
 so its power is limited so that, at worst, it is more conservative than the rules.
 
 ## Components
@@ -129,7 +129,7 @@ In `config.json`: `paper_like_ibkr: true`, `paper_fill: next_open`, `paper_capit
 
 The old $10,000 paper records are archived in `state/archive_2026-10-23_before_realistic/`.
 
-## Config guard (`config_guard.py`, borrowing BinanceClaw's HARD_BOUNDS)
+## Config guard (`config_guard.py`)
 
 `config.json` is checked before every run, so even a hand-edited config cannot produce absurd values. Corrections apply only to that run, the file is never rewritten, and each correction is written into the daily report's events until it is fixed:
 - Every numeric parameter has hard limits (for example single order 5%–60%, drawdown breaker 5%–50%, 1–30 orders a day); values outside are pulled back to the limit
@@ -147,7 +147,7 @@ The daily report links that day's archive files. View them with `python3 ai_log.
 ## Risk layer (neither the AI nor the rules can bypass it)
 
 - Whitelist: only 13 ETFs can be bought; no single stocks, no leverage beyond the two 2x ETFs, no short selling
-- No trade when less than 2% off target (the equivalent of BinanceClaw's "range")
+- No trade when less than 2% off target
 - Each order at most 35% of net value (except cash-like BIL), at most 12 orders a day, daily trading value at most 100% of net value
 - Drawdown breaker: more than 12% below the peak halves risky assets until the drawdown narrows to within 6%
 - Data checks: if prices have not updated for more than 4 days, or move more than 25% in a day (likely bad data), stop trading that day

@@ -25,8 +25,7 @@
 一个每天美股收盘后自动运行一次的投资程序，只交易标普 500、纳斯达克 100 的指数 ETF（以及它们的两倍版本）和短期美债。
 它想回答的问题是：**能不能用公开、可检验的规则，在少亏很多的前提下拿到接近甚至超过指数的收益？**
 
-架构参考了开源项目 [BinanceClaw](https://github.com/TypeThe0ry/BinanceClaw)（AI 管理加密货币账户、代码负责风控），
-但做了两处原则性的改变：
+整个系统建立在两条设计原则上：
 
 1. **只买指数 ETF，不碰个股和加密货币。** 标的少而透明，每条规则都能拿 2008 年以来的数据回测。
 2. **AI（DeepSeek）只能减仓，不能加仓。** 大模型训练时已经"见过"历史行情，它的判断没法做公平的回测，
@@ -193,9 +192,8 @@ python3 run.py          # 每个交易日收盘后运行一次；日报在 repor
 | `tests/` | 离线单元测试 |
 | `docs/research-log.zh-CN.md` | 研究日志：每次改策略的原因和被推翻的结论（[英文版](docs/research-log.md)） |
 
-## 🙏 致谢与参考
+## 📚 参考文献
 
-- [BinanceClaw](https://github.com/TypeThe0ry/BinanceClaw)：系统架构（AI 出方案、代码守底线、配置硬上限）的灵感来源
 - Moreira, A. & Muir, T. (2017). *Volatility-Managed Portfolios*. Journal of Finance.
 - Faber, M. (2007). *A Quantitative Approach to Tactical Asset Allocation*.
 - Keller, W. & Keuning, J. (2023). *Dual and Canary Momentum with Rising Yields/Inflation: Hybrid Asset Allocation (HAA)*.

@@ -25,7 +25,7 @@ Four risk levels · Strict daily backtests since 2008 · Paper trading that runs
 A program that runs once a day after the US market closes and trades only index ETFs on the S&P 500 and Nasdaq-100 (plus their 2x versions) and short-term US Treasuries.
 The question it tries to answer: **can public, testable rules earn returns close to, or above, the index while losing much less in crashes?**
 
-The architecture is inspired by the open-source project [BinanceClaw](https://github.com/TypeThe0ry/BinanceClaw) (AI manages a crypto account while code enforces risk limits), with two deliberate changes:
+Two design principles shape everything else:
 
 1. **Index ETFs only, no single stocks or crypto.** A small, transparent universe means every rule can be backtested on data going back to 2008.
 2. **The AI (DeepSeek) can only reduce positions, never add.** A large language model has already "seen" historical prices during training, so its judgement cannot be backtested fairly.
@@ -195,9 +195,8 @@ Code comments and daily reports are written in Chinese; the dashboard has an Eng
 | `tests/` | Offline unit tests |
 | `docs/research-log.md` | Research log: why each change was made and which conclusions were overturned ([中文版](docs/research-log.zh-CN.md)) |
 
-## 🙏 Acknowledgements and references
+## 📚 References
 
-- [BinanceClaw](https://github.com/TypeThe0ry/BinanceClaw): inspiration for the architecture (AI proposes, code enforces, hard limits on every setting)
 - Moreira, A. & Muir, T. (2017). *Volatility-Managed Portfolios*. Journal of Finance.
 - Faber, M. (2007). *A Quantitative Approach to Tactical Asset Allocation*.
 - Keller, W. & Keuning, J. (2023). *Dual and Canary Momentum with Rising Yields/Inflation: Hybrid Asset Allocation (HAA)*.

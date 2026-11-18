@@ -3,10 +3,15 @@
 - 历史回测：四个风险档位和研究过的其他策略 2008 年至今的净值、回撤、逐年收益、分时段指标
   （和 backtest_flex.py 同一套设置）
 - 向前实测：规则主账户、AI 影子账户、策略擂台每个账户的每日净值
-每天定时任务跑完后自动重新生成；也可以手动运行：../.venv/bin/python dashboard.py
+每天定时任务跑完后自动重新生成；也可以手动运行：python3 dashboard.py
+加 --publish 时，如果配置里 publish_dashboard 为 true，再把看板推到 GitHub 的 gh-pages 分支（GitHub Pages 在线版）。
 """
 import json
 import os
+import shutil
+import subprocess
+import sys
+import tempfile
 from datetime import date, datetime
 
 import backtest_flex as bf
@@ -146,6 +151,38 @@ def build():
     }
 
 
+def publish():
+    """把看板推到 origin 的 gh-pages 分支。这个分支每次强制覆盖成只有一个提交，
+    main 上不会每天多一条数据提交。失败只打印原因，不影响交易和本地看板。"""
+    import config_guard
+    cfg, _ = config_guard.load(os.path.join(HERE, "config.json"))
+    if not cfg.get("publish_dashboard"):
+        print("publish_dashboard 未开启，不发布在线看板")
+        return
+
+    def git(*args, cwd=HERE):
+        return subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True, timeout=120, check=True).stdout.strip()
+
+    tmp = tempfile.mkdtemp(prefix="guardian-pages-")
+    try:
+        url = git("remote", "get-url", "origin")
+        name = git("config", "user.name") or "guardian"
+        email = git("config", "user.email") or "guardian@users.noreply.github.com"
+        shutil.copy(OUT, os.path.join(tmp, "index.html"))
+        open(os.path.join(tmp, ".nojekyll"), "w").close()  # 纯静态页，不让 GitHub 用 Jekyll 处理
+        git("init", "-q", "-b", "gh-pages", cwd=tmp)
+        git("add", "-A", cwd=tmp)
+        git("-c", f"user.name={name}", "-c", f"user.email={email}", "commit", "-q", "-m",
+            f"Dashboard {datetime.now():%Y-%m-%d %H:%M}", cwd=tmp)
+        git("push", "-q", "-f", url, "gh-pages", cwd=tmp)
+        print("在线看板已发布到 gh-pages")
+    except (OSError, subprocess.SubprocessError) as e:
+        err = getattr(e, "stderr", "") or str(e)
+        print(f"在线看板发布失败（不影响交易）：{err.strip()[:300]}")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def main():
     payload = json.dumps(build(), ensure_ascii=False, separators=(",", ":"))
     html = open(TEMPLATE, encoding="utf-8").read().replace("/*__DATA__*/null", payload)
@@ -156,6 +193,8 @@ def main():
             + html + "\n</body></html>\n")
     open(OUT, "w", encoding="utf-8").write(page)
     print(f"已生成 {OUT}（{len(page) / 1024:.0f} KB）")
+    if "--publish" in sys.argv:
+        publish()
 
 
 if __name__ == "__main__":

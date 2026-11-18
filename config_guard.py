@@ -57,6 +57,7 @@ BOOL = {
     "fractional_shares": False, "paper_like_ibkr": True, "monthly_tranches": True,
     "ai.enabled": True, "ai.news": True, "ai.daily": True,
     "shadow.enabled": True, "arena.enabled": True, "ibkr.dry_run": True,
+    "publish_dashboard": False,
 }
 
 
