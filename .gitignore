@@ -1,0 +1,15 @@
+# 运行时产生的数据：账户状态、日报、日志、行情缓存，都留在本机
+state/
+reports/
+logs/
+cache/
+STOP
+
+# 个人设置（账户号、自己选的档位），不公开
+config.local.json
+.env
+
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

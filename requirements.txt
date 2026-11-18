@@ -1,0 +1,3 @@
+# 回测、本地模拟盘、AI 复核只用 Python 标准库（3.10+），不需要安装任何东西。
+# 只有连接盈透证券（IBKR，mode 为 ibkr_paper / ibkr_live）时才需要：
+ib_async>=2.0
