@@ -1,0 +1,109 @@
+{
+  "mode": "paper",
+  "execution": "auto",
+  "paper_capital_usd": 4200,
+  "fractional_shares": false,
+  "risk_level": "balanced",
+  "profile": "growth",
+  "profiles": {
+    "conservative": {
+      "guardian": 0.5,
+      "keller_haa": 0.5
+    },
+    "balanced": {
+      "guardian": 0.25,
+      "keller_haa": 0.4,
+      "trend_us_equity": 0.35
+    },
+    "aggressive": {
+      "keller_haa": 0.5,
+      "trend_us_equity": 0.5
+    },
+    "growth": {
+      "trend_us_equity": 0.5,
+      "lev_trend_us": 0.5
+    }
+  },
+  "cash_symbol": "BIL",
+  "whitelist": [
+    "SPY",
+    "QQQ",
+    "IWM",
+    "EFA",
+    "EEM",
+    "VNQ",
+    "DBC",
+    "GLD",
+    "IEF",
+    "TLT",
+    "TIP",
+    "LQD",
+    "BIL",
+    "SSO",
+    "QLD",
+    "SPYM",
+    "QQQM"
+  ],
+  "guardrails": {
+    "rebalance_band": 0.1,
+    "max_orders_per_day": 12,
+    "max_order_pct": 0.35,
+    "max_daily_turnover_pct": 1.0,
+    "drawdown_breaker": 0.35,
+    "breaker_risk_scale": 0.5,
+    "max_stale_days": 4,
+    "max_daily_move": 0.25
+  },
+  "ai": {
+    "enabled": true,
+    "model": "deepseek-v4-pro",
+    "effort": "max",
+    "news": true,
+    "on_failure": "rules",
+    "daily": true,
+    "low_balance_cny": 3
+  },
+  "costs": {
+    "commission_per_order_usd": 0.35,
+    "slippage": 0.0005
+  },
+  "shadow": {
+    "enabled": true,
+    "max_single_weight": 0.5
+  },
+  "ibkr": {
+    "host": "127.0.0.1",
+    "port": 4002,
+    "client_id": 17,
+    "account": "",
+    "dry_run": false,
+    "tif": "OPG",
+    "max_capital_usd": 4200,
+    "symbol_map": {
+      "SPY": "SPYM",
+      "QQQ": "QQQM"
+    }
+  },
+  "paper_like_ibkr": true,
+  "paper_fill": "next_open",
+  "daily_overlay": {
+    "strategy": "vol_managed",
+    "share": 0.5
+  },
+  "arena": {
+    "enabled": true,
+    "capital_usd": 4200,
+    "members": {
+      "monthly_growth": "月度成长（旧主策略）",
+      "volmix": "风险档位：成长（不含 AI）",
+      "vol_managed": "波动率管理",
+      "trend_x_vol": "趋势×波动",
+      "dashboard": "多信号仪表盘",
+      "vix_term": "VIX期限结构",
+      "level_conservative": "风险档位：稳健",
+      "level_balanced": "风险档位：平衡",
+      "level_aggressive": "风险档位：激进"
+    }
+  },
+  "monthly_tranches": true
+}
