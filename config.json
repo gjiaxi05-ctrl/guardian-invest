@@ -105,5 +105,6 @@
       "level_aggressive": "风险档位：激进"
     }
   },
-  "monthly_tranches": true
+  "monthly_tranches": true,
+  "publish_dashboard": false
 }

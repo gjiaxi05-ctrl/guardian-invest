@@ -32,6 +32,6 @@ done
     code=$?
   fi
   echo "exit=$code"
-  # 更新策略看板（失败不影响交易）
-  $PY dashboard.py || echo "看板生成失败"
+  # 更新策略看板；配置里 publish_dashboard 为 true 时同时发布在线版（失败都不影响交易）
+  $PY dashboard.py --publish || echo "看板生成失败"
 } >> logs/daily.log 2>&1
