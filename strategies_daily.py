@@ -348,13 +348,13 @@ def live_monthly_tranches(h=None, two=0.5):
 # 唯一一次修改：稳健档最初用 tv=0.10、不留现金，回测最大回撤 -22%，和平衡档（-21%）几乎一样，
 # 因为慢熊市里波动率不高、波动率管理不会减仓。改成"平衡档 × 60% + 40% 短债"，降风险靠常备现金。
 RISK_LEVELS = {
-    "conservative": {"name": "稳健", "two": 0.0, "tv": 0.15, "cap": 1.0, "scale": 0.6,
+    "conservative": {"name": "稳健", "name_en": "Conservative", "two": 0.0, "tv": 0.15, "cap": 1.0, "scale": 0.6,
                      "desc": "平衡档的 60% + 常备 40% 短债，只用普通 ETF"},
-    "balanced": {"name": "平衡", "two": 0.0, "tv": 0.15, "cap": 1.0,
+    "balanced": {"name": "平衡", "name_en": "Balanced", "two": 0.0, "tv": 0.15, "cap": 1.0,
                  "desc": "只用普通 ETF，最多满仓，不加杠杆"},
-    "growth": {"name": "成长", "two": 0.5, "tv": 0.20, "cap": 2.0,
+    "growth": {"name": "成长", "name_en": "Growth", "two": 0.5, "tv": 0.20, "cap": 2.0,
                "desc": "作者自己在跑的档位：趋势在时一半用两倍 ETF，平静时最多 2 倍档位"},
-    "aggressive": {"name": "激进", "two": 1.0, "tv": 0.25, "cap": 2.0,
+    "aggressive": {"name": "激进", "name_en": "Aggressive", "two": 1.0, "tv": 0.25, "cap": 2.0,
                    "desc": "趋势在时全部用两倍 ETF，波动目标 25%；回撤可能超过一半"},
 }
 

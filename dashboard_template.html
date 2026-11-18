@@ -98,6 +98,8 @@ tr.is-main td:first-child::before { content: "★ "; color: var(--s-main); }
 .tag { font-family: var(--font-ui); font-size: 11.5px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--ink-3); margin-left: 6px; }
 
 .fwd-empty { color: var(--ink-2); }
+header.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+footer a { color: var(--accent); }
 footer { color: var(--ink-3); font-size: 12.5px; display: grid; gap: 4px; }
 
 @media (max-width: 720px) {
@@ -109,30 +111,35 @@ footer { color: var(--ink-3); font-size: 12.5px; display: grid; gap: 4px; }
 </style>
 
 <div class="wrap">
-  <header>
-    <h1>Guardian 风险档位看板</h1>
-    <p class="sub">同一套机制分成稳健、平衡、成长、激进四档：2008 年以来的历史回测，以及每天向前运行的模拟账户成绩。</p>
-    <p class="meta" id="meta"></p>
+  <header class="top">
+    <div>
+      <h1 data-i18n="title">Guardian 风险档位看板</h1>
+      <p class="sub" data-i18n="sub">同一套机制分成稳健、平衡、成长、激进四档：2008 年以来的历史回测，以及每天向前运行的模拟账户成绩。</p>
+      <p class="meta" id="meta"></p>
+    </div>
+    <div class="seg" id="lang" role="group" aria-label="Language / 语言">
+      <button type="button" data-lang="en">English</button><button type="button" data-lang="zh">中文</button>
+    </div>
   </header>
 
-  <section class="kpis" id="kpis" aria-label="四个风险档位与对照"></section>
+  <section class="kpis" id="kpis" aria-label="Risk levels and benchmark"></section>
 
   <section class="section">
     <div class="section-head">
-      <h2>历史回测：净值走势</h2>
+      <h2 data-i18n="h_hist">历史回测：净值走势</h2>
       <div class="controls">
-        <div class="seg" id="period" role="group" aria-label="时间段"></div>
+        <div class="seg" id="period" role="group" aria-label="Period"></div>
       </div>
     </div>
     <div class="panel section">
-      <div class="chips" id="chips" aria-label="显示哪些策略"></div>
+      <div class="chips" id="chips" aria-label="Strategies shown"></div>
       <div>
-        <p class="chart-title">净值（起点 = 1，对数刻度：同样的上下距离代表同样的涨跌幅）</p>
-        <div class="chart"><canvas id="equity" aria-label="各策略净值走势"></canvas></div>
+        <p class="chart-title" data-i18n="c_equity">净值（起点 = 1，对数刻度：同样的上下距离代表同样的涨跌幅）</p>
+        <div class="chart"><canvas id="equity" aria-label="Equity curves"></canvas></div>
       </div>
       <div>
-        <p class="chart-title">回撤（距离之前最高点跌了多少）</p>
-        <div class="chart small"><canvas id="dd" aria-label="各策略回撤"></canvas></div>
+        <p class="chart-title" data-i18n="c_dd">回撤（距离之前最高点跌了多少）</p>
+        <div class="chart small"><canvas id="dd" aria-label="Drawdowns"></canvas></div>
       </div>
       <p class="note" id="settings"></p>
     </div>
@@ -140,37 +147,78 @@ footer { color: var(--ink-3); font-size: 12.5px; display: grid; gap: 4px; }
 
   <section class="section">
     <div class="section-head">
-      <h2>指标对比</h2>
-      <p>按"收益/回撤"排序：每承受 1 份下跌换来多少年化收益，越高越划算。</p>
+      <h2 data-i18n="h_metrics">指标对比</h2>
+      <p data-i18n="p_metrics">按"收益/回撤"排序：每承受 1 份下跌换来多少年化收益，越高越划算。</p>
     </div>
     <div class="panel tablewrap"><table id="metrics"></table></div>
   </section>
 
   <section class="section">
     <div class="section-head">
-      <h2>逐年收益</h2>
-      <p>每个策略每一年的涨跌，绿色赚、红色亏。重点看 2008、2020、2022 这几个大跌年。</p>
+      <h2 data-i18n="h_years">逐年收益</h2>
+      <p data-i18n="p_years">每个策略每一年的涨跌，绿色赚、红色亏。重点看 2008、2020、2022 这几个大跌年。</p>
     </div>
     <div class="panel tablewrap"><table id="years"></table></div>
   </section>
 
   <section class="section">
     <div class="section-head">
-      <h2>向前实测：模拟账户</h2>
-      <p>从开始运行那天起，每天按真实开盘价成交的虚拟账户。回测是历史，这里才是真正没见过的未来。</p>
+      <h2 data-i18n="h_fwd">向前实测：模拟账户</h2>
+      <p data-i18n="p_fwd">从开始运行那天起，每天按真实开盘价成交的虚拟账户。回测是历史，这里才是真正没见过的未来。</p>
     </div>
     <div class="panel section" id="forward"></div>
   </section>
 
   <footer>
-    <span>回测用 Yahoo Finance 复权日线（含分红），收盘后决策、下一个交易日开盘价成交，含佣金与滑点。</span>
-    <span>历史表现不代表未来收益。本页不构成投资建议。</span>
+    <span data-i18n="f_data">回测用 Yahoo Finance 复权日线（含分红），收盘后决策、下一个交易日开盘价成交，含佣金与滑点。</span>
+    <span data-i18n="f_risk">历史表现不代表未来收益。本页不构成投资建议。</span>
+    <span><a href="https://github.com/gjiaxi05-ctrl/guardian-invest" data-i18n="f_src">源代码与研究日志：GitHub</a></span>
   </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
 const DATA = /*__DATA__*/null;
+
+const I18N = {
+  title: ["Guardian 风险档位看板", "Guardian · Risk Level Dashboard"],
+  sub: ["同一套机制分成稳健、平衡、成长、激进四档：2008 年以来的历史回测，以及每天向前运行的模拟账户成绩。",
+        "One mechanism, four risk levels (Conservative, Balanced, Growth, Aggressive): daily backtests since 2008, and paper accounts that run forward every day."],
+  h_hist: ["历史回测：净值走势", "Backtest: growth of 1 dollar"],
+  c_equity: ["净值（起点 = 1，对数刻度：同样的上下距离代表同样的涨跌幅）",
+             "Value (start = 1, log scale: the same vertical distance means the same percentage change)"],
+  c_dd: ["回撤（距离之前最高点跌了多少）", "Drawdown (how far below its previous peak)"],
+  h_metrics: ["指标对比", "Metrics"],
+  p_metrics: ["按\"收益/回撤\"排序：每承受 1 份下跌换来多少年化收益，越高越划算。",
+              "Sorted by return ÷ drawdown: annual return earned per unit of maximum drawdown. Higher is better."],
+  h_years: ["逐年收益", "Year by year"],
+  p_years: ["每个策略每一年的涨跌，绿色赚、红色亏。重点看 2008、2020、2022 这几个大跌年。",
+            "Each strategy's return in each calendar year, green for gains and red for losses. Look especially at the crash years 2008, 2020 and 2022."],
+  h_fwd: ["向前实测：模拟账户", "Forward test: paper accounts"],
+  p_fwd: ["从开始运行那天起，每天按真实开盘价成交的虚拟账户。回测是历史，这里才是真正没见过的未来。",
+          "Virtual accounts filled at real opening prices every day since they started. The backtest is history; this is the future the system has never seen."],
+  f_data: ["回测用 Yahoo Finance 复权日线（含分红），收盘后决策、下一个交易日开盘价成交，含佣金与滑点。",
+           "Backtests use Yahoo Finance adjusted daily prices (dividends included): decide after the close, fill at the next trading day's open, commissions and slippage included."],
+  f_risk: ["历史表现不代表未来收益。本页不构成投资建议。", "Past performance does not guarantee future results. Nothing on this page is investment advice."],
+  f_src: ["源代码与研究日志：GitHub", "Source code and research log on GitHub"],
+  k_ann: ["年化收益", "Annual return"], k_mdd: ["最大回撤", "Max drawdown"], k_rd: ["收益/回撤", "Return ÷ drawdown"],
+  k_loss: ["12 个月亏钱概率", "12-month loss odds"],
+  kp_cons: ["稳健", "Conservative"], kp_bal: ["平衡", "Balanced"], kp_main: ["成长", "Growth"], kp_aggr: ["激进", "Aggressive"],
+  kp_spy: ["对照：满仓标普 500", "S&P 500 buy & hold"],
+  m_head: [["策略", "年化", "最大回撤", "最差 12 个月", "12 个月亏钱概率", "收益/回撤", "年均下单", "平均股票档位"],
+           ["Strategy", "Annual", "Max drawdown", "Worst 12 months", "12-month loss chance", "Return ÷ drawdown", "Orders / year", "Avg. exposure"]],
+  tag: ["仅表格", "table only"], x: [" 倍", "x"], strat: ["策略", "Strategy"],
+  fwd_empty: ["还没有向前运行的记录。", "No forward records yet."],
+  fwd_head: [["账户", "开始日期", "运行天数", "最新净值", "累计收益"], ["Account", "Start", "Days", "Latest value", "Return"]],
+};
+let lang = (() => {
+  const q = new URLSearchParams(location.search).get("lang");
+  if (q === "en" || q === "zh") return q;
+  try { const v = localStorage.getItem("guardian-lang"); if (v === "en" || v === "zh") return v; } catch (e) {}
+  return (navigator.language || "").toLowerCase().startsWith("zh") ? "zh" : "en";
+})();
+const T = (k) => I18N[k][lang === "en" ? 1 : 0];
+const nm = (o) => (lang === "en" && o.name_en) ? o.name_en : o.name;
 
 const COLOR_VAR = { cons: "--s-vol", bal: "--s-credit", main: "--s-main", aggr: "--s-old", spy: "--s-spy" };
 const DEFAULT_ON = new Set(["cons", "bal", "main", "aggr", "spy"]);
@@ -239,7 +287,7 @@ function render() {
   labels = ss[0].pts.map(([d]) => d);
   const shown = ss.filter(s => visible.has(s.key));
   const mk = (s, ys, fill) => ({
-    label: s.name, data: ys.map((y, i) => ({ x: i, y })), borderColor: css(COLOR_VAR[s.key]),
+    label: nm(s), data: ys.map((y, i) => ({ x: i, y })), borderColor: css(COLOR_VAR[s.key]),
     backgroundColor: css(COLOR_VAR[s.key]), borderWidth: s.key === "main" ? 2.5 : s.key === "spy" ? 1.5 : 2,
     borderDash: s.key === "spy" ? [5, 4] : [], pointRadius: 0, pointHoverRadius: 4, pointHoverBorderWidth: 2,
     pointHoverBorderColor: css("--surface"), tension: 0, fill
@@ -253,7 +301,7 @@ function render() {
     options: baseOptions({ type: "logarithmic", ticks: { callback: (v) => {
       const nice = [0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 15, 20];
       return nice.includes(+v.toFixed(2)) ? v + "×" : "";
-    } } }, (y) => y.toFixed(2) + " 倍（" + pct(y - 1, 0) + "）")
+    } } }, (y) => lang === "en" ? y.toFixed(2) + "x (" + pct(y - 1, 0) + ")" : y.toFixed(2) + " 倍（" + pct(y - 1, 0) + "）")
   });
   ddChart = new Chart(document.getElementById("dd"), {
     type: "line", data: { datasets: dd }, plugins: [crosshair],
@@ -269,7 +317,7 @@ function renderChips() {
     const b = document.createElement("button");
     b.className = "chip"; b.type = "button"; b.id = "chip-" + s.key;
     b.setAttribute("aria-pressed", visible.has(s.key));
-    b.innerHTML = `<span class="swatch" style="background:var(${COLOR_VAR[s.key]})"></span>${s.name}`;
+    b.innerHTML = `<span class="swatch" style="background:var(${COLOR_VAR[s.key]})"></span>${nm(s)}`;
     b.onclick = () => {
       if (visible.has(s.key)) { if (visible.size > 1) visible.delete(s.key); } else visible.add(s.key);
       b.setAttribute("aria-pressed", visible.has(s.key)); render();
@@ -280,9 +328,10 @@ function renderChips() {
 
 function renderPeriod() {
   const box = document.getElementById("period");
-  DATA.periods.forEach(([k, name]) => {
+  box.innerHTML = "";
+  DATA.periods.forEach(([k, name, nameEn]) => {
     const b = document.createElement("button");
-    b.type = "button"; b.id = "period-" + k; b.textContent = name;
+    b.type = "button"; b.id = "period-" + k; b.textContent = lang === "en" ? nameEn : name;
     b.setAttribute("aria-pressed", k === period);
     b.onclick = () => { period = k; [...box.children].forEach(x => x.setAttribute("aria-pressed", x === b)); render(); };
     box.appendChild(b);
@@ -290,44 +339,44 @@ function renderPeriod() {
 }
 
 function renderKpis() {
-  const pick = { cons: "稳健", bal: "平衡", main: "成长", aggr: "激进", spy: "对照：满仓标普 500" };
+  const pick = { cons: T("kp_cons"), bal: T("kp_bal"), main: T("kp_main"), aggr: T("kp_aggr"), spy: T("kp_spy") };
   const box = document.getElementById("kpis");
   box.innerHTML = Object.entries(pick).map(([k, short]) => {
     const row = DATA.table.find(r => r.key === k), m = row.periods.all;
     return `<div class="panel kpi ${k === "main" ? "main" : ""}">
       <div class="kpi-name"><span class="swatch" style="background:var(${COLOR_VAR[k]})"></span>${short}</div>
       <dl class="kpi-rows">
-        <dt>年化收益</dt><dd>${pctPlain(m["年化"])}</dd>
-        <dt>最大回撤</dt><dd class="neg">${pctPlain(m["最大回撤"])}</dd>
-        <dt>收益/回撤</dt><dd>${m["收益/回撤"].toFixed(2)}</dd>
-        <dt>12 个月亏钱概率</dt><dd>${pctPlain(m["亏钱12月占比"], 0)}</dd>
+        <dt>${T("k_ann")}</dt><dd>${pctPlain(m["年化"])}</dd>
+        <dt>${T("k_mdd")}</dt><dd class="neg">${pctPlain(m["最大回撤"])}</dd>
+        <dt>${T("k_rd")}</dt><dd>${m["收益/回撤"].toFixed(2)}</dd>
+        <dt>${T("k_loss")}</dt><dd>${pctPlain(m["亏钱12月占比"], 0)}</dd>
       </dl></div>`;
   }).join("");
 }
 
 function renderMetrics() {
   const rows = [...DATA.table].sort((a, b) => b.periods[period]["收益/回撤"] - a.periods[period]["收益/回撤"]);
-  const head = ["策略", "年化", "最大回撤", "最差 12 个月", "12 个月亏钱概率", "收益/回撤", "年均下单", "平均股票档位"];
+  const head = T("m_head");
   const t = document.getElementById("metrics");
   t.innerHTML = `<thead><tr>${head.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>` + rows.map(r => {
     const m = r.periods[period];
     const sw = COLOR_VAR[r.key] ? `<span class="swatch" style="display:inline-block;margin-right:6px;background:var(${COLOR_VAR[r.key]})"></span>` : "";
-    return `<tr class="${r.key === "main" ? "is-main" : ""}"><td>${sw}${r.name}${r.charted ? "" : '<span class="tag">仅表格</span>'}</td>
+    return `<tr class="${r.key === "main" ? "is-main" : ""}"><td>${sw}${nm(r)}${r.charted ? "" : `<span class="tag">${T("tag")}</span>`}</td>
       <td class="${m["年化"] >= 0 ? "pos" : "neg"}">${pctPlain(m["年化"])}</td>
       <td class="neg">${pctPlain(m["最大回撤"])}</td>
       <td class="${m["最差12月"] >= 0 ? "pos" : "neg"}">${pctPlain(m["最差12月"])}</td>
       <td>${pctPlain(m["亏钱12月占比"], 0)}</td>
       <td>${m["收益/回撤"].toFixed(2)}</td>
       <td>${Math.round(m["年均下单"])}</td>
-      <td>${m["平均档位"].toFixed(2)} 倍</td></tr>`;
+      <td>${m["平均档位"].toFixed(2)}${T("x")}</td></tr>`;
   }).join("") + "</tbody>";
 }
 
 function renderYears() {
   const years = Object.keys(DATA.table[0].years).sort();
   const t = document.getElementById("years");
-  t.innerHTML = `<thead><tr><th>策略</th>${years.map(y => `<th>${y}</th>`).join("")}</tr></thead><tbody>` +
-    DATA.table.map(r => `<tr class="${r.key === "main" ? "is-main" : ""}"><td>${r.name}</td>${years.map(y => {
+  t.innerHTML = `<thead><tr><th>${T("strat")}</th>${years.map(y => `<th>${y}</th>`).join("")}</tr></thead><tbody>` +
+    DATA.table.map(r => `<tr class="${r.key === "main" ? "is-main" : ""}"><td>${nm(r)}</td>${years.map(y => {
       const v = r.years[y];
       if (v === undefined || v === null) return "<td>—</td>";
       return `<td class="${v >= 0 ? "cell-pos" : "cell-neg"}">${pct(v, 1)}</td>`;
@@ -336,21 +385,40 @@ function renderYears() {
 
 function renderForward() {
   const f = DATA.forward, box = document.getElementById("forward");
-  if (!f.series.length) { box.innerHTML = '<p class="fwd-empty">还没有向前运行的记录。</p>'; return; }
+  if (!f.series.length) { box.innerHTML = `<p class="fwd-empty">${T("fwd_empty")}</p>`; return; }
   const days = Math.max(...f.series.map(s => s.points.length));
   const rows = [...f.series].sort((a, b) => b.ret - a.ret);
-  box.innerHTML = `<p class="note">已记录 ${days} 个运行日${f.start ? `，策略擂台自 ${f.start} 开始` : ""}。至少跑 3～6 个月，排名才有参考价值。</p>
-    <div class="tablewrap"><table><thead><tr><th>账户</th><th>开始日期</th><th>运行天数</th><th>最新净值</th><th>累计收益</th></tr></thead><tbody>` +
-    rows.map(s => `<tr><td>${s.name}</td><td>${s.points[0][0]}</td><td>${s.points.length}</td>
+  const note = lang === "en"
+    ? `${days} trading days recorded${f.start ? `; strategy arena since ${f.start}` : ""}. Rankings mean little until the accounts have run for at least 3–6 months.`
+    : `已记录 ${days} 个运行日${f.start ? `，策略擂台自 ${f.start} 开始` : ""}。至少跑 3～6 个月，排名才有参考价值。`;
+  box.innerHTML = `<p class="note">${note}</p>
+    <div class="tablewrap"><table><thead><tr>${T("fwd_head").map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>` +
+    rows.map(s => `<tr><td>${nm(s)}</td><td>${s.points[0][0]}</td><td>${s.points.length}</td>
       <td>$${s.points[s.points.length - 1][1].toLocaleString("en-US", { maximumFractionDigits: 2 })}</td>
       <td class="${s.ret >= 0 ? "pos" : "neg"}">${pct(s.ret, 2)}</td></tr>`).join("") + "</tbody></table></div>";
 }
 
-function boot() {
-  document.getElementById("meta").textContent =
-    `回测区间 ${DATA.start} 至 ${DATA.data_range[1]} · 更新于 ${DATA.generated}`;
-  document.getElementById("settings").textContent = "设置：" + DATA.settings + "。点上方的标签可以显示或隐藏策略。";
+function applyLang() {
+  document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+  document.title = T("title");
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = T(el.dataset.i18n); });
+  document.querySelectorAll("#lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  document.getElementById("meta").textContent = lang === "en"
+    ? `Backtest ${DATA.start} to ${DATA.data_range[1]} · updated ${DATA.generated}`
+    : `回测区间 ${DATA.start} 至 ${DATA.data_range[1]} · 更新于 ${DATA.generated}`;
+  document.getElementById("settings").textContent = lang === "en"
+    ? "Settings: " + (DATA.settings_en || DATA.settings) + ". Click the labels above to show or hide a strategy."
+    : "设置：" + DATA.settings + "。点上方的标签可以显示或隐藏策略。";
   renderPeriod(); renderChips(); renderKpis(); renderYears(); renderForward(); render();
+}
+
+function boot() {
+  document.querySelectorAll("#lang button").forEach(b => b.onclick = () => {
+    lang = b.dataset.lang;
+    try { localStorage.setItem("guardian-lang", lang); } catch (e) {}
+    applyLang();
+  });
+  applyLang();
 }
 boot();
 const rerender = () => { renderKpis(); render(); };
