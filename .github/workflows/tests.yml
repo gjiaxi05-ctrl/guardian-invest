@@ -6,10 +6,12 @@ on:
 
 jobs:
   unit:
-    runs-on: ubuntu-latest
+    # 固定 24.04：Ubuntu 26.04 上没有 Python 3.9，而 3.9 是 macOS 自带的版本，要保证能跑
+    runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
-        python: ["3.9", "3.12"]
+        python: ["3.9", "3.14"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
